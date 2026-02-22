@@ -1,7 +1,21 @@
 [project]
 name = "ai-travel-agent"
 version = "0.1.0"
-description = "Add your description here"
+description = "Travel Planning Agent using LangChain and Streamlit"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "langchain>=1.2.10",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.2.14",
+    "langchain-groq>=1.1.2",
+    "streamlit>=1.54.0",
+]
+
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
