@@ -4,10 +4,10 @@ from typing import List
 
 from src.config.config import config
 
-llm = ChatGroq(api_key=config.GROQ_API_KEY, name="openai/gpt-oss-20b", temperature=0.3)
+llm = ChatGroq(api_key=config.GROQ_API_KEY, model=config.LLM_MODEL, temperature=0.3)
 
 iternerary_prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful travel assistant. Create a day trip itinerary for {city} based on the user's interests: {interests}. \n\n Provide a brief, bulleted itinerary.")
+    ("system", "You are a helpful travel assistant. Create a day trip itinerary for {city} based on the user's interests: {interests}. \n\n Provide a brief, bulleted itinerary."),
     ("human", "Create an itinerary for a day trip.")
 ])
 

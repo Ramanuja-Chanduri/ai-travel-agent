@@ -11,3 +11,5 @@ wheels/
 
 # Dev files
 .env
+/logs/
+*.log
