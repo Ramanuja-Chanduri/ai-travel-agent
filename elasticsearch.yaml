@@ -16,6 +16,8 @@ kind: Deployment
 metadata:
   name: elasticsearch
   namespace: logging
+  labels:
+    app: elasticsearch
 spec:
   replicas: 1
   selector:
@@ -26,9 +28,13 @@ spec:
       labels:
         app: elasticsearch
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+          imagePullPolicy: IfNotPresent
+
           env:
             - name: discovery.type
               value: single-node
@@ -36,18 +42,26 @@ spec:
               value: "-Xms512m -Xmx512m"
             - name: xpack.security.enabled
               value: "false"
+            - name: bootstrap.memory_lock
+              value: "false"
+            - name: cluster.routing.allocation.disk.threshold_enabled
+              value: "false"
+
           ports:
             - containerPort: 9200
+
           resources:
-            limits:
-              memory: "2Gi"
-              cpu: "1"
             requests:
               memory: "1Gi"
               cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+
           volumeMounts:
-            - mountPath: /usr/share/elasticsearch/data
-              name: elasticsearch-storage
+            - name: elasticsearch-storage
+              mountPath: /usr/share/elasticsearch/data
+
       volumes:
         - name: elasticsearch-storage
           persistentVolumeClaim:
@@ -62,6 +76,8 @@ spec:
   selector:
     app: elasticsearch
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 9200
       targetPort: 9200
+  type: ClusterIP
