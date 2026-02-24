@@ -17,6 +17,7 @@ spec:
       containers:
         - name: ai-travel-agent
           image: ai-travel-agent:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8501
           envFrom:
